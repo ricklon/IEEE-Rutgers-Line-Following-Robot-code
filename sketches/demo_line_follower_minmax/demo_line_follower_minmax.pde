@@ -11,13 +11,19 @@
 #define motor2PWM 10
 #define motor1Enable 11
 #define motor2Enable 12
-
+#define numSensors 5
 #define line_thresh 100
 
 //Decalre sensors
-int sensors[5];
-int senorsmax[5];
-int sensorsmin[5];
+int sensors[numSensors];
+int sensorsmax[numSensors] =
+{
+  -1,-1,-1,-1,-1
+};
+int sensorsmin[numSensors] = 
+{
+  1024,1024,1024,1024,1024
+};
 
 
 void setMotorVel(int dirPin, int pwmPin, int velocity){
@@ -98,17 +104,26 @@ void setup(){
 
 void loop(){
 
- for (int ii =0; ii <5; ii++)
+ for (int ii =0; ii <numSensors; ii++)
   {
     sensors[ii] = analogRead(ii);
+    sensorsmin[ii] = min(sensorsmin[ii], sensors[ii]);
+    sensorsmax[ii] = max(sensorsmax[ii], sensors[ii]);
   }
 
-  Serial.print("Sensor Values : " );
+  Serial.print("Sensor Values: " );
 
-  for (int ii =0; ii <4; ii++)
+  for (int ii =0; ii <numSensors; ii++)
   {
+    Serial.print("s");
+    Serial.print(ii);
+    Serial.print("= " );
     Serial.print( sensors[ii]);
-    Serial.print(" " );
+    Serial.print(" Max: " );
+    Serial.print( sensorsmax[ii]);
+    Serial.print(" Min: " );   
+    Serial.print( sensorsmin[ii]); 
+     Serial.print(", " );   
   }
 
   Serial.println(" ");
