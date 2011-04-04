@@ -9,11 +9,24 @@
 #define motor2Enable 12
 
 #include <avr/interrupt.h>
-#include <stdio.h>
 
 
+void initMotorDriver()
+{
+  pinMode(motor1Dir, OUTPUT);
+  pinMode(motor2Dir, OUTPUT);
 
-void setMotorVel(int dirPin, int pwmPin, int velocity){
+  pinMode(motor1Enable, OUTPUT);
+  pinMode(motor2Enable, OUTPUT);
+  digitalWrite(motor1Enable,HIGH);
+  digitalWrite(motor2Enable,HIGH);
+  setLeftMotorSpeed(0); // make sure the motors are stopped
+  setRightMotorSpeed(0);
+}
+
+
+void setMotorVel(int dirPin, int pwmPin, int velocity)
+{
   if (velocity >= 255) velocity = 255;
   if (velocity <= -255) velocity = -255;
 
@@ -35,57 +48,62 @@ void setMotorVel(int dirPin, int pwmPin, int velocity){
 
 void setLeftMotorSpeed(int velocity)
 {
+  Serial.print("Set Left: ");
+  Serial.println(velocity);
   setMotorVel(motor1Dir, motor1PWM, -velocity);
 
 }
 
-void setRightMotorSpeed(int velocity){
+void setRightMotorSpeed(int velocity)
+{
+        Serial.print("Set Right: ");
+        Serial.println(velocity);
   setMotorVel(motor2Dir, motor2PWM, -velocity);
 }
 
-void initMotorDriver()
-{
-  pinMode(motor1Dir, OUTPUT);
-  pinMode(motor2Dir, OUTPUT);
 
-  pinMode(motor1Enable, OUTPUT);
-  pinMode(motor2Enable, OUTPUT);
-  digitalWrite(motor1Enable,HIGH);
-  digitalWrite(motor2Enable,HIGH);
-  setLeftMotorSpeed(0); // make sure the motors are stopped
-  setRightMotorSpeed(0);
-}
-
-
-int testSensor(int sensor){
-      char msg[30];
-      //grab adc value
-      int val = analogRead(sensor);
- 	sprintf(msg, "Reading Sensor %d : %d \n", sensor, val);
-      Serial.print(msg);
-     return val; 
-}
 
 
 
 void goForward()
 {
+  Serial.println("Go Forward!");
   setLeftMotorSpeed(255);
   setRightMotorSpeed(255);
 }
 
 void goRight()
 {
+  Serial.println("Go Right!");
   setLeftMotorSpeed(255);
   setRightMotorSpeed(-255);
 }
 
 void goLeft()
 {
+  Serial.println("Go Left!");
   setLeftMotorSpeed(-255);
   setRightMotorSpeed(255);
 }
 
+void stop()
+{
+  Serial.println("Stop.");
+  setLeftMotorSpeed(0);
+  setRightMotorSpeed(0);
+}
+
+
+
+int testSensor(int sensor){
+      //grab adc value
+     int val = analogRead(sensor);
+     Serial.print("Reading Sensor: ");
+     Serial.print(sensor);
+     Serial.print(": ");
+     Serial.println(val);
+     return val; 
+}
 
 
 void setup(){
@@ -93,6 +111,8 @@ void setup(){
 
   // prints title with ending line break 
   Serial.println("Line Sensor boar Sensor test"); 
+  Serial.println("Enter to show sensor value: 0=Sensor0, 1=Sensor1, 2=Sensor2, 3=Sensor3, 4=Sensor4, 5=Sensor5"); 
+  Serial.println("Enter to move: s= stop, f = forward, r = reverse, l = left"); 
   initMotorDriver();
 }
 
@@ -118,9 +138,6 @@ void loop(){
     case '4':
       testSensor(4);
       break;
-    case '5':
-      testSensor(5);
-      break;   
     case 'f' :
       setLeftMotorSpeed(254);
       setRightMotorSpeed(254);
@@ -130,9 +147,18 @@ void loop(){
       setRightMotorSpeed(-254);
       break;
     case 's':
-      setLeftMotorSpeed(0);
-      setRightMotorSpeed(0);
+      stop();
       break;
+    case 'l':
+      goLeft();
+      break;
+     case 'a':
+      testSensor(0);
+      testSensor(1);
+      testSensor(2);
+      testSensor(3);
+      testSensor(4);
+      break;     
             
   }
 }
