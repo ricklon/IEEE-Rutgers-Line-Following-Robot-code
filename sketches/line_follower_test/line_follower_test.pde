@@ -111,8 +111,9 @@ void setup(){
 
   // prints title with ending line break 
   Serial.println("Line Sensor boar Sensor test"); 
-  Serial.println("Enter to show sensor value: 0=Sensor0, 1=Sensor1, 2=Sensor2, 3=Sensor3, 4=Sensor4, 5=Sensor5"); 
-  Serial.println("Enter to move: s= stop, f = forward, r = reverse, l = left"); 
+  Serial.println("Enter to show sensor value: 0=Sensor0, 1=Sensor1, 2=Sensor2, 3=Sensor3, 4=Sensor4"); 
+  Serial.println("Enter p to print all sensor values");
+  Serial.println("Enter to move: s = stop, w = forward, a = right, x = reverse, d = left"); 
   initMotorDriver();
 }
 
@@ -138,21 +139,25 @@ void loop(){
     case '4':
       testSensor(4);
       break;
-    case 'f' :
+    case 'w' :
       setLeftMotorSpeed(254);
       setRightMotorSpeed(254);
       break;
-    case 'r':
+    case 'x':
       setLeftMotorSpeed(-254);
       setRightMotorSpeed(-254);
       break;
     case 's':
       stop();
       break;
-    case 'l':
+    case 'a':
       goLeft();
       break;
-     case 'a':
+    case 'd':
+      goRight();
+      break;
+    
+     case 'p':
       testSensor(0);
       testSensor(1);
       testSensor(2);
