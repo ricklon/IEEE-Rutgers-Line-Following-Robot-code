@@ -7,7 +7,6 @@
 #define motor2PWM 10
 #define motor1Enable 11
 #define motor2Enable 12
-#define delayval 250
 
 #include <avr/interrupt.h>
 
@@ -24,6 +23,7 @@ void initMotorDriver()
   setLeftMotorSpeed(0); // make sure the motors are stopped
   setRightMotorSpeed(0);
 }
+
 
 
 void setMotorVel(int dirPin, int pwmPin, int velocity)
@@ -130,11 +130,11 @@ void loop()
      goBack();
      delay(1000);
      goRight();
-     delay(delayval);
+     delay(1000);
      goLeft();
-     delay(delayval);
+     delay(1000);
      goRight();
-     delay(delayval);
+     delay(1000);
      stop();
      
 }
