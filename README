@@ -39,3 +39,15 @@ Does it jerk towards the line or go it smoothly?
 What kinds of lines does it follow best?
 
 Can you program it to stop or pause when it detects wider lines or dashed lines?
+
+
+
+Example Code:
+test1.pde, does basic movement, forward, back, left, right
+
+line_follower_test.pde, allows you to control the robot using commands over serial at 115200 baud. A menu prints to the serial terminal.
+
+demo_line_follower.pde, This is the code we're debugging tomorrow.
+
+demo_liine_follower_minmax.pde,  This keeps track of the mins and maxs for the sensors.
+
