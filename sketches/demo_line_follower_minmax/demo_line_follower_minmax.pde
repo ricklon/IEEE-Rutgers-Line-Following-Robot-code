@@ -3,7 +3,6 @@
 * Some quick clean up done 20110403
 *
 */
-#include <avr/interrupt.h>
 
 #define motor1Dir 7
 #define motor2Dir 8
