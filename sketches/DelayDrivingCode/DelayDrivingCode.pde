@@ -8,7 +8,6 @@
 #define motor1Enable 11
 #define motor2Enable 12
 
-#include <avr/interrupt.h>
 
 
 void initMotorDriver()
